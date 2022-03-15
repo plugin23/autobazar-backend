@@ -1,7 +1,7 @@
 const { response } = require('express')
 const express = require('express')
 const router = express.Router()
-const Car = require('../models/cars')
+const Car = require('../schemas/car-schema')
 
 
 router.get('/', async (req, res) => {
