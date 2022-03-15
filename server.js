@@ -4,14 +4,11 @@ const app = express()
 require('dotenv/config')
 
 const uri = process.env.MONGODB_URI;
-//app.use(bodyParser.urlencoded({ extended: true }))
 
-
-mongoose.connect(process.env.DATABASE_URL, () => console.log("connected to db"))
-
+mongoose.connect(process.env.MONGODB_URI, () => console.log("connected to db"))
 
 const getCars = require('./routes/cars');
 
-app.use('/auta',getCars);
+app.use('/autobazar/cars',getCars);
 
 app.listen(8080)
