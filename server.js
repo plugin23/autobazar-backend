@@ -1,20 +1,14 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const app = express()
-require('dotenv').config()
+require('dotenv/config')
 
 const uri = process.env.MONGODB_URI;
-//app.use(bodyParser.urlencoded({ extended: true }))
 
-mongoose.connect(uri, {useNewUrlParser:true})
-const db = mongoose.connection
-db.once('open', () => console.log('Connected to DB'))
+mongoose.connect(process.env.MONGODB_URI, () => console.log("connected to db"))
 
-const usersRouter = require('./routes/users')
-const carsRouter = require('./routes/cars')
+const getCars = require('./routes/cars');
 
-app.use('/api/autobazar/users', usersRouter)
-app.use('/api/autobazar/cars', carsRouter)
+app.use('/autobazar/cars',getCars);
 
-
-app.listen(8080, () => console.log('Server started'))
+app.listen(8080)
