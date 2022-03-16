@@ -3,7 +3,7 @@ const express = require('express')
 const router = express.Router()
 const Car = require('../schemas/car-schema')
 
-const { body, validationResult } = require('express-validator');
+const { check, body, validationResult } = require('express-validator');
 
 router.get('/', async (req, res) => {
     try {
@@ -11,22 +11,22 @@ router.get('/', async (req, res) => {
         res.json(cars)
         console.log(cars)
     } catch (err) {
-        res.status(500).json({message: err.message})
+        res.status(500).json({errors: err.message})
     }
 })
 
 router.post('/', 
-    body('author').not().isEmpty().isMongoId(),
-    body('year').not().isEmpty().isInt(),
-    body('mileage').not().isEmpty().isInt(),
-    body('price').not().isEmpty().isInt(),
-    body('doors').not().isEmpty().isInt(),
-    body('description').not().isEmpty().isString(),
-    body('engine_cap').not().isEmpty().isString(),
-    body('car_brand').not().isEmpty().isString(),
-    body('image_url').not().isEmpty().isString(),
-    body('body').not().isEmpty().isString(),
-    body('image_photos').not().isEmpty().isArray(),
+    body('author', 'not valid MongoID').not().isEmpty().isMongoId(),
+    body('year', 'not number').not().isEmpty().isInt(),
+    body('mileage', 'not number').not().isEmpty().isInt(),
+    body('price', 'not number').not().isEmpty().isInt(),
+    body('doors', 'not number').not().isEmpty().isInt(),
+    body('description', 'not string').not().isEmpty().isString(),
+    body('engine_cap', 'not string').not().isEmpty().isString(),
+    body('car_brand', 'not string').not().isEmpty().isString(),
+    body('image_url', 'not string').not().isEmpty().isString(),
+    body('body', 'not string').not().isEmpty().isString(),
+    body('image_photos', 'not array').not().isEmpty().isArray(),
     async (req, res) => {
 
         const car = new Car({
@@ -50,6 +50,23 @@ router.post('/',
 
         } catch (err) {
             res.status(400).json({errors: err.array()})
+        }
+})
+
+router.get('/:id', 
+    check('id').isMongoId().withMessage('not valid MongoID'),
+    async (req, res) => {
+        try{
+            validationResult(req).throw();
+            const car = await Car.findById(req.params.id)
+            
+            if (car === null) {
+                return res.status(404).json({errors: [{msg: `car ${req.params.id} not found`}]})
+            }
+
+            res.status(200).json(car)
+        } catch (err) {
+            res.status(500).json({errors: err.array()});
         }
 })
 
