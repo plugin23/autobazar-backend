@@ -14,4 +14,15 @@ router.get('/', async (req, res) => {
     }
 })
 
+router.delete('/:postId', async (req, res) => {
+    try{
+        const removeCar = await Car.remove({_id: req.params.postId})
+        console.log(removeCar);
+        res.json(removeCar)
+    } catch(err) {
+        res.status(500).json({message: err.message})
+    }
+})
+
 module.exports = router
+
