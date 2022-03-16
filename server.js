@@ -10,7 +10,7 @@ mongoose.connect(process.env.MONGODB_URI, () => console.log("connected to db"))
 app.use(express.json())
 
 const carsRouter = require('./routes/cars');
-const usersRouter = require('./router/users')
+const usersRouter = require('./routes/users')
 
 app.use('/api/autobazar/cars', carsRouter);
 app.use('/api/autobazar/users', usersRouter);

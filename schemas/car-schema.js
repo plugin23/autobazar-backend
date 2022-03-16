@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 const carSchema = mongoose.Schema({
     author: {
-        type: Schema.Types.ObjectId, 
+        type: mongoose.Schema.Types.ObjectId, 
         ref: 'users',
         required: true
     },
@@ -10,7 +10,7 @@ const carSchema = mongoose.Schema({
         type: Number,
         required: true
     },
-    milage: {
+    mileage: {
         type: Number,
         required: true
     },
