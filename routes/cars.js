@@ -15,6 +15,16 @@ router.get('/', async (req, res) => {
     }
 })
 
+router.delete('/:postId', async (req, res) => {
+    try{
+        const removeCar = await Car.remove({_id: req.params.postId})
+        console.log(removeCar);
+        res.json(removeCar)
+    } catch(err) {
+        res.status(500).json({message: err.message})
+    }
+})
+
 router.post('/', 
     body('author', 'not valid MongoID').not().isEmpty().isMongoId(),
     body('year', 'not number').not().isEmpty().isInt(),
