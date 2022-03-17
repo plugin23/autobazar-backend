@@ -1,20 +1,54 @@
 const mongoose = require('mongoose')
 
 const carSchema = mongoose.Schema({
-    id: Number,
-    author: Number,
-    year: Number,
-    milage: Number,
-    price: Number,
-    doors: Number,
-    description: String,
-    engine_cap: String,
-    car_brand: String,
-    image_url: String,
-    body: String,
-    password: String,
-    image_photos: Array,
-    created_at: Date,
+    author: {
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'users',
+        required: true
+    },
+    year: {
+        type: Number,
+        required: true
+    },
+    mileage: {
+        type: Number,
+        required: true
+    },
+    price: {
+        type: Number,
+        required: true
+    },
+    doors: {
+        type: Number,
+        required: true
+    },
+    description: {
+        type: String,
+        required: true
+    },
+    engine_cap: {
+        type: String,
+        required: true
+    },
+    car_brand: {
+        type: String,
+        required: true
+    },
+    image_url: {
+        type: String,
+    },
+    body: {
+        type: String,
+        required: true
+    },
+    image_photos: {
+        type: Array,
+        required: true
+    },
+    created_at: {
+        type: Date,
+        default: Date.now
+    },
 })
 
 module.exports = mongoose.model('cars', carSchema)
