@@ -7,13 +7,12 @@ const uri = process.env.MONGODB_URI;
 
 mongoose.connect(process.env.MONGODB_URI, () => console.log("connected to db"))
 
-const getCars = require('./routes/cars');
-const deleteCars = require('./routes/cars');
-const getUserInfo = require('./routes/users');
+app.use(express.json())
 
+const carsRouter = require('./routes/cars');
+const usersRouter = require('./routes/users')
 
-app.use('/api/autobazar/cars',getCars);
-app.use('/api/autobazar/cars',deleteCars);
-app.use('/api/autobazar/users',getUserInfo);
+app.use('/api/autobazar/cars', carsRouter);
+app.use('/api/autobazar/users', usersRouter);
 
 app.listen(8080)
