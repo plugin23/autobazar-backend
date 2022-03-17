@@ -25,6 +25,8 @@ router.delete('/:postId', async (req, res) => {
     }
 })
 
+
+
 router.post('/', 
     body('author', 'not valid MongoID').not().isEmpty().isMongoId(),
     body('year', 'not number').not().isEmpty().isInt(),
@@ -62,6 +64,23 @@ router.post('/',
             res.status(400).json({errors: err.array()})
         }
 })
+
+//TODO fix put
+router.put('/:id', async (req, res) => {
+    try {
+      const car = await Car.findByIdAndUpdate(req.params.id, {
+          itemname: req.body.itemname,
+          category: req.body.category
+      });
+      // Send response in here
+      res.send('Item Updated!');
+
+    } catch(err) {
+        console.error(err.message);
+        res.send(400).send('Server Error');
+    }
+});
+
 
 router.get('/:id', 
     check('id').isMongoId().withMessage('not valid MongoID'),
