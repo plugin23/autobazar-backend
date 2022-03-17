@@ -5,6 +5,7 @@ const Car = require('../schemas/car-schema')
 
 const { check, body, validationResult } = require('express-validator');
 
+//Najnovšie/najstaršie inzeráty
 router.get('/', async (req, res) => {
     try {
         const cars = await Car.find()
@@ -15,6 +16,7 @@ router.get('/', async (req, res) => {
     }
 })
 
+//Odstránenie inzerátu
 router.delete('/:postId', async (req, res) => {
     try{
         const removeCar = await Car.remove({_id: req.params.postId})
@@ -25,8 +27,7 @@ router.delete('/:postId', async (req, res) => {
     }
 })
 
-
-
+//Ukladanie inzerátu do DB
 router.post('/', 
     body('author', 'not valid MongoID').not().isEmpty().isMongoId(),
     body('year', 'not number').not().isEmpty().isInt(),
@@ -65,15 +66,25 @@ router.post('/',
         }
 })
 
-//TODO fix put
+//Úprava inzerátu
 router.put('/:id', async (req, res) => {
     try {
       const car = await Car.findByIdAndUpdate(req.params.id, {
-          itemname: req.body.itemname,
-          category: req.body.category
+        author: req.body.author,
+        year: req.body.year,
+        mileage: req.body.mileage,
+        price: req.body.price,
+        doors: req.body.doors,
+        description: req.body.description,
+        engine_cap: req.body.engine_cap,
+        car_brand: req.body.car_brand,
+        image_url: req.body.image_url,
+        body: req.body.body,
+        image_photos: req.body.image_photos
       });
-      // Send response in here
-      res.send('Item Updated!');
+
+      console.log(car);
+      res.json(car);
 
     } catch(err) {
         console.error(err.message);
@@ -81,7 +92,7 @@ router.put('/:id', async (req, res) => {
     }
 });
 
-
+//Obsah inzerátu
 router.get('/:id', 
     check('id').isMongoId().withMessage('not valid MongoID'),
     async (req, res) => {

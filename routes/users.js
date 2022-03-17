@@ -3,7 +3,7 @@ const express = require('express')
 const router = express.Router()
 const User = require('../schemas/user-schema')
 
-
+//Informácie o užívateľovi
 router.get('/:postId', async (req, res) => {
     try{
         const users = await User.find({_id: req.params.postId})
@@ -14,7 +14,7 @@ router.get('/:postId', async (req, res) => {
     }
 })
 
-//TODO vracať iba array favourites
+//Obľúbené inzeráty
 router.get('/:postId/favourites', async (req, res) => {
     try{
         const users = await User.find({_id: req.params.postId})
