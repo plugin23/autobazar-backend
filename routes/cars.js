@@ -10,7 +10,6 @@ router.get('/', async (req, res) => {
     try {
         const cars = await Car.find()
         res.json(cars)
-        console.log(cars)
     } catch (err) {
         res.status(500).json({errors: err.message})
     }
@@ -20,7 +19,6 @@ router.get('/', async (req, res) => {
 router.delete('/:postId', async (req, res) => {
     try{
         const removeCar = await Car.remove({_id: req.params.postId})
-        console.log(removeCar);
         res.json(removeCar)
     } catch(err) {
         res.status(500).json({message: err.message})
@@ -83,7 +81,6 @@ router.put('/:id', async (req, res) => {
         image_photos: req.body.image_photos
       });
 
-      console.log(car);
       res.json(car);
 
     } catch(err) {
@@ -109,6 +106,5 @@ router.get('/:id',
             res.status(500).json({errors: err.array()});
         }
 })
-
 
 module.exports = router
