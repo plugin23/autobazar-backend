@@ -1,7 +1,10 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const app = express()
-require('dotenv').config({ silent: process.env.NODE_ENV === 'production' })
+
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config()
+}
 
 mongoose.connect(process.env.MONGODB_URI, () => console.log("connected to db"))
 
