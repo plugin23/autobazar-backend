@@ -4,11 +4,16 @@ const router = express.Router()
 const Car = require('../schemas/car-schema')
 
 const { check, body, validationResult } = require('express-validator');
+const { request } = require('express');
 
 //Najnovšie/najstaršie inzeráty
 router.get('/', async (req, res) => {
+    const page = req.query.page ? req.query.page : 1
+    const per_page = req.query.per_page ? req.query.per_page : 10
+    const order_type = req.query.order_type == 'asc' ? 1 : -1
+    
     try {
-        const cars = await Car.find()
+        const cars = await Car.find().sort({ created_at: order_type }).limit(Number(per_page)).skip((page - 1) * per_page)
         res.json(cars)
     } catch (err) {
         res.status(500).json({errors: err.message})
