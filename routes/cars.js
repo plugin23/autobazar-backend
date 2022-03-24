@@ -8,8 +8,8 @@ const { request } = require('express');
 
 //Najnovšie/najstaršie inzeráty
 router.get('/', async (req, res) => {
-    const page = req.query.page ? req.query.page : 1
-    const per_page = req.query.per_page ? req.query.per_page : 10
+    const page = req.query.page > 0 ? req.query.page : 1
+    const per_page = req.query.per_page > 0 ? req.query.per_page : 10
     const order_type = req.query.order_type == 'asc' ? 1 : -1
     
     try {
