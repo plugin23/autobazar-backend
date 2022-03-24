@@ -2,6 +2,7 @@ const { response } = require('express')
 const express = require('express')
 const router = express.Router()
 const Car = require('../schemas/car-schema')
+const User = require('../schemas/user-schema')
 
 const { check, body, validationResult } = require('express-validator');
 const { request } = require('express');
@@ -23,10 +24,27 @@ router.get('/', async (req, res) => {
 //Odstránenie inzerátu
 router.delete('/:postId', async (req, res) => {
     try{
-        const removeCar = await Car.remove({_id: req.params.postId})
-        res.json(removeCar)
+        var removeCar = await Car.deleteOne({_id: req.params.postId})
+        var removedCarFavourites = await User.find({favourites: req.params.postId})
+        //console.log(removedCarFavourites)
+
+        removedCarFavourites.forEach(item => {
+            var index = item.favourites.indexOf(req.params.postId)
+            item.favourites.splice(index, 1)
+            User.findByIdAndUpdate(item._id, {favourites: item.favourites}, {upsert:true}, function(err, doc) {
+                if (err) return res.status(500).json({error: err})
+            })
+        })
+        
+        if (removeCar.deletedCount) {
+            removeCar = []
+            return res.status(200).json(removeCar)
+        }
+        else {
+            return res.status(404).json({errors: [{msg: `car ${req.params.postId} not found`}]})
+        }
     } catch(err) {
-        res.status(500).json({message: err.message})
+        res.status(500).json({errors: err.message})
     }
 })
 
@@ -90,7 +108,7 @@ router.put('/:id', async (req, res) => {
 
     } catch(err) {
         console.error(err.message);
-        res.send(400).send('Server Error');
+        res.status(400).json({errors: err.message})
     }
 });
 
