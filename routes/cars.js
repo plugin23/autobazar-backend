@@ -26,7 +26,6 @@ router.delete('/:postId', async (req, res) => {
     try{
         var removeCar = await Car.deleteOne({_id: req.params.postId})
         var removedCarFavourites = await User.find({favourites: req.params.postId})
-        //console.log(removedCarFavourites)
 
         removedCarFavourites.forEach(item => {
             var index = item.favourites.indexOf(req.params.postId)

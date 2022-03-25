@@ -7,9 +7,15 @@ const User = require('../schemas/user-schema')
 router.get('/:postId', async (req, res) => {
     try{
         const users = await User.find({_id: req.params.postId})
-        res.json(users)
+        if (!users.length) {
+            return res.status(404).json({errors: [{msg: `user ${req.params.postId} not found`}]})
+        }
+        else {
+            res.json(users)
+        }
+        
     } catch(err) {
-        res.status(500).json({message: err.message})
+        res.status(500).json({errors: err.message})
     }
 })
 
@@ -17,9 +23,15 @@ router.get('/:postId', async (req, res) => {
 router.get('/:postId/favourites', async (req, res) => {
     try{
         const users = await User.find({_id: req.params.postId})
-        res.json(users[0].favourites)
+        if (!users.length) {
+            res.status(404).json({errors: [{msg: `user ${req.params.postId} not found`}]})
+        }
+        else { 
+            res.json(users[0].favourites)
+        }
+        
     } catch(err) {
-        res.status(500).json({message: err.message})
+        res.status(500).json({errors: err.message})
     }
 })
 
