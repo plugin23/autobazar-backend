@@ -59,8 +59,18 @@ router.post('/',
         
         try{
             validationResult(req).throw();
+            const email = await User.findOne({email: req.body.email})
+            const password = await User.findOne({password: req.body.password})
+
+            if(email){
+                return res.status(400).send("User with this email already exists")    
+            }
+
+            if(password){
+                return res.status(400).send("Password already used")    
+            }
+
             const savedUser = await user.save()
-            console.log(savedUser)
             res.status(201).json({
                 message: 'User added successfully!'
               });
@@ -93,6 +103,5 @@ router.post('/login',  async (req, res) => {
             res.status(400).json({errors: err.array()})
         }
 })
-
 
 module.exports = router
