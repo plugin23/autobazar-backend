@@ -70,7 +70,7 @@ router.post('/',
                 return res.status(400).send("Password already used")    
             }
 
-            const savedUser = await user.save()
+            await user.save()
             res.status(201).json({
                 message: 'User added successfully!'
               });
