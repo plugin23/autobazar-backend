@@ -1,11 +1,9 @@
-const { response } = require('express')
-const express = require('express')
-const router = express.Router()
-const User = require('../schemas/user-schema')
+import express from 'express'
+import {userModel as User} from '../schemas/user-schema.js'
+import { check, body, validationResult } from 'express-validator'
+//const { check, body, validationResult } = require('express-validator');
 
-
-const { check, body, validationResult } = require('express-validator');
-
+export const router = express.Router()
 //Informácie o užívateľovi
 router.get('/:postId', async (req, res) => {
     try{
@@ -103,5 +101,3 @@ router.post('/login',  async (req, res) => {
             res.status(400).json({errors: err.array()})
         }
 })
-
-module.exports = router

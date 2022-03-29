@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose'
 
 const carSchema = mongoose.Schema({
     author: {
@@ -48,4 +48,5 @@ const carSchema = mongoose.Schema({
     },
 })
 
-module.exports = mongoose.model('cars', carSchema)
+//module.exports = mongoose.model('cars', carSchema)
+export const carModel = mongoose.model('cars', carSchema)

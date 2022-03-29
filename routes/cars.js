@@ -1,13 +1,9 @@
-const { response } = require('express')
-const express = require('express')
-const router = express.Router()
-const Car = require('../schemas/car-schema')
-const User = require('../schemas/user-schema')
+import express from 'express'
+import {carModel as Car} from '../schemas/car-schema.js'
+import {userModel as User} from '../schemas/user-schema.js'
+import { check, body, validationResult } from 'express-validator'
 
-
-
-const { check, body, validationResult } = require('express-validator');
-const { request } = require('express');
+export const router = express.Router()
 
 //Najnovšie/najstaršie inzeráty
 router.get('/', async (req, res) => {
@@ -51,7 +47,7 @@ router.delete('/:postId', async (req, res) => {
 
 //Ukladanie inzerátu do DB
 router.post('/', 
-    body('author', 'not valid MongoID').not().isEmpty().isMongoId(),
+    body('author', 'not valid MongoID').not().isEmpty(),
     body('year', 'not number').not().isEmpty().isInt(),
     body('mileage', 'not number').not().isEmpty().isInt(),
     body('price', 'not number').not().isEmpty().isInt(),
@@ -61,7 +57,6 @@ router.post('/',
     body('car_brand', 'not string').not().isEmpty().isString(),
     body('body', 'not string').not().isEmpty().isString(),
     body('image_photos', 'not array').not().isEmpty().isArray(),
-
     async (req, res) => {
 
         const car = new Car({
@@ -83,7 +78,7 @@ router.post('/',
             res.status(201).json(savedCar)
 
         } catch (err) {
-            res.status(400).json({errors: err.array()})
+            res.status(400).json({errors: err})
         }
 })
 
@@ -131,4 +126,4 @@ router.get('/:id',
         }
 })
 
-module.exports = router
+
