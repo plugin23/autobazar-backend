@@ -34,9 +34,6 @@ const carSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    image_url: {
-        type: String,
-    },
     body: {
         type: String,
         required: true
@@ -44,7 +41,7 @@ const carSchema = mongoose.Schema({
     image_photos: {
         type: Array,
         required: true
-    },
+    },    
     created_at: {
         type: Date,
         default: Date.now

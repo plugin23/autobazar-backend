@@ -4,6 +4,8 @@ const router = express.Router()
 const Car = require('../schemas/car-schema')
 const User = require('../schemas/user-schema')
 
+
+
 const { check, body, validationResult } = require('express-validator');
 const { request } = require('express');
 
@@ -57,9 +59,9 @@ router.post('/',
     body('description', 'not string').not().isEmpty().isString(),
     body('engine_cap', 'not string').not().isEmpty().isString(),
     body('car_brand', 'not string').not().isEmpty().isString(),
-    body('image_url', 'not string').not().isEmpty().isString(),
     body('body', 'not string').not().isEmpty().isString(),
     body('image_photos', 'not array').not().isEmpty().isArray(),
+
     async (req, res) => {
 
         const car = new Car({
@@ -71,7 +73,6 @@ router.post('/',
             description: req.body.description,
             engine_cap: req.body.engine_cap,
             car_brand: req.body.car_brand,
-            image_url: req.body.image_url,
             body: req.body.body,
             image_photos: req.body.image_photos
         })
@@ -99,6 +100,7 @@ router.put('/:id', async (req, res) => {
         engine_cap: req.body.engine_cap,
         car_brand: req.body.car_brand,
         image_url: req.body.image_url,
+        images: req.body.images,
         body: req.body.body,
         image_photos: req.body.image_photos
       });
