@@ -1,7 +1,7 @@
 import express from 'express'
 import mongoose from 'mongoose'
-import {router as carsRouter} from '/skola/autobazar-backend/routes/cars.js'
-import {router as usersRouter} from '/skola/autobazar-backend/routes/users.js'
+import {router as carsRouter} from './routes/cars.js'
+import {router as usersRouter} from './routes/users.js'
 import { createRequire } from "module";
 const require = createRequire(import.meta.url);
 
