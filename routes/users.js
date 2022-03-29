@@ -42,9 +42,9 @@ router.get('/:postId/favourites', async (req, res) => {
 router.post('/', 
     body('first_name', 'not string').not().isEmpty().isString(),
     body('last_name', 'not string').not().isEmpty().isString(),
-    body('email', 'not string').not().isEmpty().isString(),
+    body('email', 'not string').not().isEmpty().isEmail(),
     body('password', 'not string').not().isEmpty().isString(),
-    body('phone_number', 'not number').not().isEmpty().isInt(),
+    body('phone_number', 'not number').not().isEmpty().isNumeric(),
     body('favourites', 'not array').isArray(),
     async (req, res) => {
 
