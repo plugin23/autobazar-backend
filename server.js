@@ -2,6 +2,9 @@ const express = require('express');
 const mongoose = require('mongoose');
 const app = express()
 const PORT = process.env.PORT || 8080;
+
+app.use(express.json({limit: '15mb'}));
+
 if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config()
 }
