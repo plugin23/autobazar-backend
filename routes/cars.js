@@ -4,6 +4,7 @@ const router = express.Router()
 const Car = require('../schemas/car-schema')
 
 const { check, body, validationResult } = require('express-validator');
+const { urlencoded } = require('body-parser');
 
 router.get('/', async (req, res) => {
     try {
