@@ -9,7 +9,7 @@ router.get('/:postId', async (req, res) => {
     try{
         const users = await User.find({_id: req.params.postId})
         if (!users.length) {
-            return res.status(404).json({errors: [{msg: `user ${req.params.postId} not found`}]})
+            return res.status(404).json({errors: [{msg: `User ${req.params.postId} not found`}]})
         }
         else {
             res.json(users)
@@ -61,16 +61,16 @@ router.post('/',
             const password = await User.findOne({password: req.body.password})
 
             if(email){
-                return res.status(400).send("User with this email already exists")    
+                return res.status(400).json({errors: [{msg: "User with this email already exists"}]})    
             }
 
             if(password){
-                return res.status(400).send("Password already used")    
+                return res.status(400).json({errors: [{msg: "Password already used"}]})    
             }
 
             await user.save()
             res.status(201).json({
-                message: 'User added successfully!'
+                msg: 'User added successfully!'
               });
 
         } catch (err) {
@@ -84,17 +84,17 @@ router.post('/login',  async (req, res) => {
         const users = await User.findOne({email: req.body.email})
 
         if(users == null){
-            return res.status(400).send("User was not found")
+            return res.status(400).json({errors: [{msg: "User was not found"}]})
         }
         
         try{
             validationResult(req).throw();
 
             if(req.body.password == users.password){
-                res.send("Successfully logged in")
+                res.json({msg: "Successfully logged in"})
             }
             else{
-                res.send("Unsuccessfully logged in")
+                res.status(403).json({errors: [{msg: "Unsuccessfully logged in"}]})
             }
 
         } catch (err) {

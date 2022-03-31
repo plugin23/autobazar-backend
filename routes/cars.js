@@ -38,7 +38,7 @@ router.delete('/:postId', async (req, res) => {
             return res.status(200).json(removeCar)
         }
         else {
-            return res.status(404).json({errors: [{msg: `car ${req.params.postId} not found`}]})
+            return res.status(404).json({errors: [{msg: `Car ${req.params.postId} not found`}]})
         }
     } catch(err) {
         res.status(500).json({errors: err.message})
