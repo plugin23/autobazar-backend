@@ -91,7 +91,8 @@ router.post('/login',  async (req, res) => {
             validationResult(req).throw();
 
             if(req.body.password == users.password){
-                res.json({msg: "Successfully logged in"})
+                //console.log(users['_id'])
+                res.json({id : users['_id'] })
             }
             else{
                 res.status(403).json({errors: [{msg: "Unsuccessfully logged in"}]})
