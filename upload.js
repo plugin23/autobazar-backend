@@ -24,7 +24,7 @@ const storage = getStorage();
 const storageRef = ref(storage, 'images/img.jpg');
 
 const uploadPhoto = () => {
-    const file = fs.readFileSync('./chatka.png')
+    const file = fs.readFileSync('./Nitra.png')
     uploadBytes(storageRef, file).then((snapshot) => {
         getDownloadURL(snapshot.ref).then(async (downloadURL) => {
             let obj = {
