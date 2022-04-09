@@ -19,7 +19,7 @@ const userSchema = mongoose.Schema({
     },
     favourites: {
         type: Array,
-        required: true
+        required: false
     },
     password: {
         type: String,
