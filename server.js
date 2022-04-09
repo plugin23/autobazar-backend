@@ -1,5 +1,4 @@
 import cors from 'cors'
-
 import express from 'express'
 import mongoose from 'mongoose'
 import {router as carsRouter} from './routes/cars.js'

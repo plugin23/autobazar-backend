@@ -38,20 +38,12 @@ router.get('/:postId/favourites', async (req, res) => {
 
 //Registrácia pužívateľa
 router.post('/', 
-    body('first_name', 'not string').not().isEmpty().isString(),
-    body('last_name', 'not string').not().isEmpty().isString(),
     body('email', 'not string').not().isEmpty().isEmail(),
     body('password', 'not string').not().isEmpty().isString(),
-    body('phone_number', 'not number').not().isEmpty().isNumeric(),
-    body('favourites', 'not array').isArray(),
     async (req, res) => {
 
         const user = new User({
-            first_name: req.body.first_name,
-            last_name: req.body.last_name,
             email: req.body.email,
-            phone_number: req.body.phone_number,
-            favourites: req.body.favourites,
             password: req.body.password
         })
         
