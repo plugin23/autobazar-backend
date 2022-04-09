@@ -66,7 +66,8 @@ router.post('/',
               });
 
         } catch (err) {
-            res.status(400).json({errors: err.array()})
+            res.status(400).json({errors: err.message})
+
         }
 })
 
