@@ -4,7 +4,6 @@ import {router as carsRouter} from './routes/cars.js'
 import {router as usersRouter} from './routes/users.js'
 import cors from 'cors'
 import { createRequire } from "module";
-import cors from 'cors';
 const require = createRequire(import.meta.url);
 
 const app = express()
