@@ -65,7 +65,7 @@ router.post('/',
                 msg: 'User added successfully!'
               });
 
-        } catch (err) {
+        } catch (err) {            
             res.status(400).json({errors: err.message})
 
         }
