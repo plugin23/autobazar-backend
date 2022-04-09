@@ -1,8 +1,9 @@
+import cors from 'cors'
+
 import express from 'express'
 import mongoose from 'mongoose'
 import {router as carsRouter} from './routes/cars.js'
 import {router as usersRouter} from './routes/users.js'
-import cors from 'cors'
 import { createRequire } from "module";
 const require = createRequire(import.meta.url);
 
