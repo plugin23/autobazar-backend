@@ -56,7 +56,7 @@ router.post('/',
     body('engine_cap', 'not string').not().isEmpty().isString(),
     body('car_brand', 'not string').not().isEmpty().isString(),
     body('body', 'not string').not().isEmpty().isString(),
-    body('image_photos', 'not array').not().isEmpty().isArray(),
+    body('image_photos', 'not array').isArray(),
     async (req, res) => {
 
         const car = new Car({
