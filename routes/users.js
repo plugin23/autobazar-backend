@@ -57,14 +57,9 @@ router.post('/',
         try{
             validationResult(req).throw();
             const email = await User.findOne({email: req.body.email})
-            const password = await User.findOne({password: req.body.password})
 
             if(email){
                 return res.status(400).json({errors: [{msg: "User with this email already exists"}]})    
-            }
-
-            if(password){
-                return res.status(400).json({errors: [{msg: "Password already used"}]})    
             }
 
             await user.save()
@@ -90,7 +85,6 @@ router.post('/login',  async (req, res) => {
             validationResult(req).throw();
 
             if(req.body.password == users.password){
-                //console.log(users['_id'])
                 res.json({id : users['_id'] })
             }
             else{
