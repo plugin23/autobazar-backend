@@ -37,7 +37,7 @@ const carSchema = mongoose.Schema({
     car_model: {
         type: String,
         required: true
-    }
+    },
     body: {
         type: String,
         required: true
