@@ -44,7 +44,7 @@ const carSchema = mongoose.Schema({
     },
     image_photos: {
         type: Array,
-        required: true
+        required: false
     },    
     created_at: {
         type: Date,
