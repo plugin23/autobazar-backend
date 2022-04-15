@@ -34,6 +34,10 @@ const carSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    car_model: {
+        type: String,
+        required: true
+    },
     body: {
         type: String,
         required: true
