@@ -38,7 +38,7 @@ router.get('/:postId/favourites', async (req, res) => {
 
 //Registrácia pužívateľa
 router.post('/', 
-    body('first_name', 'not string').not().isEmpty().isString(),
+    body('favourites', 'not string').not().isEmpty().isString(),
     body('last_name', 'not string').not().isEmpty().isString(),
     body('email', 'not string').not().isEmpty().isEmail(),
     body('password', 'not string').not().isEmpty().isString(),
@@ -46,21 +46,15 @@ router.post('/',
     async (req, res) => {
 
         const user = new User({
-            first_name: req.body.first_name,
-            last_name: req.body.last_name,
-            email: req.body.email,
-            phone_number: req.body.phone_number,
-            favourites: req.body.favourites,
-            password: req.body.password
+            favourites: req.body.favourites
         })
         
+        const users = await User.find({_id: req.params.postId})
+
+
         try{
             validationResult(req).throw();
-            const email = await User.findOne({email: req.body.email})
-
-            if(email){
-                return res.status(400).json({errors: [{msg: "User with this email already exists"}]})    
-            }
+            
 
             await user.save()
             res.status(201).json({
@@ -95,3 +89,26 @@ router.post('/login',  async (req, res) => {
             res.status(400).json({errors: err.array()})
         }
 })
+
+//Pridanie do favourites
+//Úprava inzerátu
+router.put('/:id', async (req, res) => {
+    try {
+      const user = await User.findByIdAndUpdate(req.params.id, {
+        favourites: req.body.favourites,
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
+        email: req.body.email,
+        phone_number: req.body.phone_number,
+        password: req.body.password
+      });
+
+      console.log('upravene')
+      res.json(user);
+
+    } catch(err) {
+        console.error(err.message);
+        res.status(400).json({errors: err.message})
+    }
+});
+
