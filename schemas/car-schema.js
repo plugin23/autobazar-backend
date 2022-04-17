@@ -30,11 +30,7 @@ const carSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    car_brand: {
-        type: String,
-        required: true
-    },
-    car_model: {
+    car_name: {
         type: String,
         required: true
     },
@@ -52,5 +48,4 @@ const carSchema = mongoose.Schema({
     },
 })
 
-//module.exports = mongoose.model('cars', carSchema)
 export const carModel = mongoose.model('cars', carSchema)
