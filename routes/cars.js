@@ -54,8 +54,7 @@ router.post('/',
     body('doors', 'not number').not().isEmpty().isInt(),
     body('description', 'not string').not().isEmpty().isString(),
     body('engine_cap', 'not string').not().isEmpty().isString(),
-    body('car_brand', 'not string').not().isEmpty().isString(),
-    body('car_model', 'not string').not().isEmpty().isString(),
+    body('car_name', 'not string').not().isEmpty().isString(),
     body('body', 'not string').not().isEmpty().isString(),
     async (req, res) => {
 
@@ -67,8 +66,7 @@ router.post('/',
             doors: req.body.doors,
             description: req.body.description,
             engine_cap: req.body.engine_cap,
-            car_brand: req.body.car_brand,
-            car_model: req.body.car_model,
+            car_name: req.body.car_name,
             body: req.body.body,
             image_photos: req.body.image_photos
         })
@@ -94,8 +92,7 @@ router.put('/:id', async (req, res) => {
         doors: req.body.doors,
         description: req.body.description,
         engine_cap: req.body.engine_cap,
-        car_brand: req.body.car_brand,
-        car_model: req.body.car_model,
+        car_name: req.body.car_name,
         body: req.body.body,
         image_photos: req.body.image_photos
       });

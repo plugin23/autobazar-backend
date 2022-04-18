@@ -1,5 +1,4 @@
-import { initializeApp } from "firebase/app";
-import { getStorage, ref, uploadBytes, getDownloadURL} from "firebase/storage";
+import * as firebase from 'firebase';
 import fs from 'fs'
 import fetch from 'node-fetch'
 
@@ -18,7 +17,9 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-initializeApp(firebaseConfig);
+if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+  }
 
 const storage = getStorage();
 const storageRef = ref(storage, 'images/img.jpg');

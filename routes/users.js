@@ -91,7 +91,7 @@ router.post('/login',  async (req, res) => {
 })
 
 //Pridanie do favourites
-//Úprava inzerátu
+//Úprava pouzivatela
 router.put('/:id', async (req, res) => {
     try {
       const user = await User.findByIdAndUpdate(req.params.id, {
@@ -103,7 +103,6 @@ router.put('/:id', async (req, res) => {
         password: req.body.password
       });
 
-      console.log('upravene')
       res.json(user);
 
     } catch(err) {
