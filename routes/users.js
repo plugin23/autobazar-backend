@@ -59,16 +59,14 @@ router.post('/',
 
             const users = await User.find({email: req.body.email})
             console.log(users)
-            if (users === null) {
-                await user.save()
-                res.status(201).json({
-                    msg: 'User added successfully!'
-                });
-                
-            }
-            else {
+            if (users != []) {
                 return res.status(400).json({errors: [{msg: "User with this email already exists"}]})
             } 
+
+            await user.save()
+            res.status(201).json({
+                msg: 'User added successfully!'
+            });
         } catch (err) {
             res.status(400).json({ errors: err.message })
         }        
