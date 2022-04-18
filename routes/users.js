@@ -117,7 +117,7 @@ router.put('/:id/own_advertisement', async (req, res) => {
       const user = await User.findByIdAndUpdate(req.params.id, {
         own_advertisement: req.body.own_advertisement        
       });
-      console.log('upravene')
+      console.log(user)
       res.json(user);
 
     } catch(err) {
