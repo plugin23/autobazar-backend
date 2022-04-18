@@ -37,6 +37,7 @@ router.get('/:postId/favourites', async (req, res) => {
 })
 
 //Registrácia pužívateľa
+//Registrácia pužívateľa
 router.post('/', 
     body('first_name', 'not string').not().isEmpty().isString(),
     body('last_name', 'not string').not().isEmpty().isString(),
@@ -55,9 +56,6 @@ router.post('/',
             own_advertisement: []
         })
         
-        
-
-        
         try {
             validationResult(req).throw();
 
@@ -74,6 +72,7 @@ router.post('/',
             res.status(400).json({ errors: err.message })
         }        
 })
+
 
 //Prihlásenie používateľa
 router.post('/login',  async (req, res) => {
