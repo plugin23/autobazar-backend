@@ -80,14 +80,14 @@ router.post('/login',  async (req, res) => {
 
         const users = await User.findOne({email: req.body.email})
 
-        if(users == null){
+        if (users == null) {
             return res.status(400).json({errors: [{msg: "User was not found"}]})
         }
         
         try{
             validationResult(req).throw();
 
-            if(req.body.password == users.password){
+            if (req.body.password == users.password) {
                 res.json({id : users['_id'] })
             }
             else{
