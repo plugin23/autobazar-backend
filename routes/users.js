@@ -53,17 +53,15 @@ router.post('/',
             favourites: [],
             own_advertisement: []
         })
-        
-        const users = await User.find({email: req.body.email})
-        
-        if (!users.length) {
-            console.log(users + " " + !users.length)
-            //return res.status(400).json({ errors: [{ msg: "User with this email already exists" }] })
-        } 
 
         try {
             validationResult(req).throw();
-
+            const users = await User.find({email: req.body.email})
+        
+            if (users.length) {
+                return res.status(400).json({ errors: [{ msg: "User with this email already exists" }] })
+            } 
+            
             await user.save()
             res.status(201).json({
                 msg: 'User added successfully!'
