@@ -37,21 +37,29 @@ router.get('/:postId/favourites', async (req, res) => {
 })
 
 //Registrácia pužívateľa
+//Registrácia pužívateľa
 router.post('/', 
     body('email', 'not string').not().isEmpty().isEmail(),
     body('password', 'not string').not().isEmpty().isString(),
     async (req, res) => {
 
         const user = new User({
-            favourites: req.body.favourites
+            email: req.body.email,
+            password: req.body.password
         })
         
-        const users = await User.find({_id: req.params.postId})
-
-
         try{
             validationResult(req).throw();
-            
+            const email = await User.findOne({email: req.body.email})
+            const password = await User.findOne({password: req.body.password})
+
+            if(email){
+                return res.status(400).json({errors: [{msg: "User with this email already exists"}]})    
+            }
+
+            if(password){
+                return res.status(400).json({errors: [{msg: "Password already used"}]})    
+            }
 
             await user.save()
             res.status(201).json({
@@ -62,6 +70,7 @@ router.post('/',
             res.status(400).json({errors: err.array()})
         }
 })
+
 
 //Prihlásenie používateľa
 router.post('/login',  async (req, res) => {
