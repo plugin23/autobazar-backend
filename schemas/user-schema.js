@@ -21,6 +21,10 @@ const userSchema = mongoose.Schema({
         type: Array,
         required: false
     },
+    own_advertisement: {
+        type: Array,
+        required: false
+    },
     password: {
         type: String,
         required: true

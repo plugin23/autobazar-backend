@@ -112,3 +112,19 @@ router.put('/:id', async (req, res) => {
     }
 });
 
+//Pridanie vlastného inzerátu userovi
+router.put('/:id/own_advertisement', async (req, res) => {
+    try {
+      const user = await User.findByIdAndUpdate(req.params.id, {
+        own_advertisement: req.body.own_advertisement        
+      });
+      console.log('upravene')
+      res.json(user);
+
+    } catch(err) {
+        console.error(err.message);
+        res.status(400).json({errors: err.message})
+    }
+});
+
+
