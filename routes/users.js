@@ -39,36 +39,41 @@ router.get('/:postId/favourites', async (req, res) => {
 //Registrácia pužívateľa
 //Registrácia pužívateľa
 router.post('/', 
+    body('first_name', 'not string').not().isEmpty().isString(),
+    body('last_name', 'not string').not().isEmpty().isString(),
     body('email', 'not string').not().isEmpty().isEmail(),
     body('password', 'not string').not().isEmpty().isString(),
+    body('phone_number', 'not number').not().isEmpty().isNumeric(),
     async (req, res) => {
 
         const user = new User({
+            first_name: req.body.first_name,
+            last_name: req.body.last_name,
             email: req.body.email,
-            password: req.body.password
+            password: req.body.password,
+            phone_number: req.body.phone_number,
+            favourites: [],
+            own_advertisement: []
         })
         
-        try{
+        
+
+        
+        try {
             validationResult(req).throw();
-            const email = await User.findOne({email: req.body.email})
-            const password = await User.findOne({password: req.body.password})
 
-            if(email){
-                return res.status(400).json({errors: [{msg: "User with this email already exists"}]})    
-            }
-
-            if(password){
-                return res.status(400).json({errors: [{msg: "Password already used"}]})    
-            }
+            const users = await User.find({email: req.body.email})
+            if (users) {
+                return res.status(400).json({errors: [{msg: "User with this email already exists"}]})
+            } 
 
             await user.save()
             res.status(201).json({
                 msg: 'User added successfully!'
-              });
-
+            });
         } catch (err) {
-            res.status(400).json({errors: err.array()})
-        }
+            res.status(400).json({ errors: err.message })
+        }        
 })
 
 
@@ -92,7 +97,7 @@ router.post('/login',  async (req, res) => {
             }
 
         } catch (err) {
-            res.status(400).json({errors: err.array()})
+            res.status(400).json({errors: err.message})
         }
 })
 
@@ -100,19 +105,17 @@ router.post('/login',  async (req, res) => {
 //Úprava pouzivatela
 router.put('/:id', async (req, res) => {
     try {
-      const user = await User.findByIdAndUpdate(req.params.id, {
-        favourites: req.body.favourites,
-        first_name: req.body.first_name,
-        last_name: req.body.last_name,
-        email: req.body.email,
-        phone_number: req.body.phone_number,
-        password: req.body.password
-      });
+        const user = await User.findByIdAndUpdate(req.params.id, {
+            favourites: req.body.favourites,
+            first_name: req.body.first_name,
+            last_name: req.body.last_name,
+            email: req.body.email,
+            phone_number: req.body.phone_number,
+            password: req.body.password
+        });
 
-      res.json(user);
-
+        res.json(user);
     } catch(err) {
-        console.error(err.message);
         res.status(400).json({errors: err.message})
     }
 });
