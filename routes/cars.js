@@ -24,8 +24,12 @@ router.get('/search/:searchQuery', async (req, res) => {
         return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     }
 
+    const page = req.query.page > 0 ? req.query.page : 1
+    const per_page = req.query.per_page > 0 ? req.query.per_page : 10
+    const order_type = req.query.order_type == 'asc' ? 1 : -1
+
     try { 
-        const cars = await Car.find({car_name: new RegExp('^'+escapeRegExp(searchQuery)+'$', "i")}).limit(Number(per_page)).skip((page - 1) * per_page);
+        const cars = await Car.find({car_name: new RegExp('^'+escapeRegExp(req.params.searchQuery)+'$', "i")}).sort({ created_at: order_type }).limit(Number(per_page)).skip((page - 1) * per_page);
         res.json(cars)
     } catch (err) {
         res.status(500).json({errors: err.message})
