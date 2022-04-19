@@ -19,6 +19,19 @@ router.get('/', async (req, res) => {
     }
 })
 
+router.get('/search/:searchQuery', async (req, res) => {
+    const escapeRegExp = (string) => {
+        return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }
+
+    try { 
+        const cars = await Car.find({car_name: new RegExp('^'+escapeRegExp(searchQuery)+'$', "i")}).limit(Number(per_page)).skip((page - 1) * per_page);
+        res.json(cars)
+    } catch (err) {
+        res.status(500).json({errors: err.message})
+    }
+})
+
 //Odstránenie inzerátu
 router.delete('/:postId', async (req, res) => {
     try{
