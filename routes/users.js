@@ -53,7 +53,11 @@ router.post('/',
             favourites: [],
             own_advertisement: []
         })
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> 5b8010420b11ddef8839d1722fb774e312352d1f
         try {
             validationResult(req).throw();
             const users = await User.find({email: req.body.email})
@@ -118,13 +122,14 @@ router.put('/:id', async (req, res) => {
 //Pridanie vlastného inzerátu userovi
 router.put('/:id/own_advertisement', async (req, res) => {
     try {
-        const user = await User.findByIdAndUpdate(req.params.id, {
-            own_advertisement: req.body.own_advertisement        
-        });
-        console.log(user)
-        res.json(user);
+      const user = await User.findByIdAndUpdate(req.params.id, {
+        own_advertisement: req.body.own_advertisement        
+      });
+
+      res.json(user);
 
     } catch(err) {
+        
         res.status(400).json({errors: err.message})
     }
 
