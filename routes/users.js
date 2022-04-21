@@ -53,11 +53,7 @@ router.post('/',
             favourites: [],
             own_advertisement: []
         })
-<<<<<<< HEAD
-
-=======
         
->>>>>>> 5b8010420b11ddef8839d1722fb774e312352d1f
         try {
             validationResult(req).throw();
             const users = await User.find({email: req.body.email})
