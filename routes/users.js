@@ -55,9 +55,6 @@ router.post('/',
             own_advertisement: []
         })
         
-        
-
-        
         try {
             validationResult(req).throw();
 
@@ -124,11 +121,11 @@ router.put('/:id/own_advertisement', async (req, res) => {
       const user = await User.findByIdAndUpdate(req.params.id, {
         own_advertisement: req.body.own_advertisement        
       });
-      console.log(user)
+
       res.json(user);
 
     } catch(err) {
-        console.error(err.message);
+        
         res.status(400).json({errors: err.message})
     }
 });
