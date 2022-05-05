@@ -1,7 +1,6 @@
 import express from 'express'
 import {userModel as User} from '../schemas/user-schema.js'
 import { check, body, validationResult } from 'express-validator'
-//const { check, body, validationResult } = require('express-validator');
 
 export const router = express.Router()
 //Informácie o užívateľovi
@@ -36,8 +35,7 @@ router.get('/:postId/favourites', async (req, res) => {
     }
 })
 
-//Registrácia pužívateľa
-//Registrácia pužívateľa
+//Registrácia používateľa
 router.post('/', 
     body('first_name', 'not string').not().isEmpty().isString(),
     body('last_name', 'not string').not().isEmpty().isString(),
@@ -56,17 +54,13 @@ router.post('/',
             own_advertisement: []
         })
         
-        
-
-        
         try {
             validationResult(req).throw();
-
             const users = await User.find({email: req.body.email})
-            if (users) {
-                return res.status(400).json({errors: [{msg: "User with this email already exists"}]})
+        
+            if (users.length) {
+                return res.status(400).json({ errors: [{ msg: "User with this email already exists" }] })
             } 
-
             await user.save()
             res.status(201).json({
                 msg: 'User added successfully!'
@@ -126,13 +120,14 @@ router.put('/:id/own_advertisement', async (req, res) => {
       const user = await User.findByIdAndUpdate(req.params.id, {
         own_advertisement: req.body.own_advertisement        
       });
-      console.log(user)
+
       res.json(user);
 
     } catch(err) {
-        console.error(err.message);
+        
         res.status(400).json({errors: err.message})
     }
+
 });
 
 

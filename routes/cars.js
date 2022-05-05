@@ -19,6 +19,24 @@ router.get('/', async (req, res) => {
     }
 })
 
+router.get('/search/:searchQuery', async (req, res) => {
+    const escapeRegExp = (string) => {
+        return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }
+
+    const page = req.query.page > 0 ? req.query.page : 1
+    const per_page = req.query.per_page > 0 ? req.query.per_page : 10
+    const order_type = req.query.order_type == 'asc' ? 1 : -1
+
+    try { 
+        //new RegExp('^'+escapeRegExp(req.params.searchQuery)+'$', "i")
+        const cars = await Car.find({'car_name': {'$regex': req.params.searchQuery, '$options': 'i'}}).sort({ created_at: order_type }).limit(Number(per_page)).skip((page - 1) * per_page);
+        res.json(cars)
+    } catch (err) {
+        res.status(500).json({errors: err.message})
+    }
+})
+
 //Odstránenie inzerátu
 router.delete('/:postId', async (req, res) => {
     try{
