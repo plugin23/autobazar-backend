@@ -2,8 +2,6 @@ import express from 'express'
 import { userModel as User } from '../schemas/user-schema.js'
 import { check, body, validationResult } from 'express-validator'
 
-export const router = express.Router()
-
 router.ws('/login', function(ws, req) {
     ws.on('message', function(msg) {
         console.log(msg)
@@ -139,3 +137,4 @@ router.put('/:id/own_advertisement', async (req, res) => {
 });
 
 
+export const router = express.Router()
