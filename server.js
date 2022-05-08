@@ -6,7 +6,7 @@ import {router as usersRouter} from './routes/users.js'
 import { createRequire } from "module";
 const require = createRequire(import.meta.url);
 const app = express()
-const ws = require('ws');
+var expressWs = require('express-ws')(app)
 const PORT = process.env.PORT || 8080;
 
 app.use(express.json({limit: '15mb'}));
@@ -21,9 +21,9 @@ mongoose.connect(process.env.MONGODB_URI, () => console.log("connected to db"))
 app.use('/api/autobazar/cars', carsRouter);
 app.use('/api/autobazar/users', usersRouter);
 
-//app.listen(PORT)
+app.listen(PORT)
 
-const wsServer = new ws.Server({ noServer: true });
+/*const wsServer = new ws.Server({ noServer: true });
 wsServer.on('connection', socket => {
   socket.on('message', message => console.log(message));
 });
@@ -33,4 +33,4 @@ server.on('upgrade', (request, socket, head) => {
   wsServer.handleUpgrade(request, socket, head => {
     wsServer.emit('connection', socket, request);
   });
-});
+});*/
