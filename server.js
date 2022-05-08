@@ -31,9 +31,9 @@ app.listen(PORT)
 usersRouter.ws('/login', async (ws, req) => {
     ws.on('message', (msg) => {
       console.log(req)
-      const body = msg.json()
+      let body = msg.json()
       console.log(body)
-      const users = await User.findOne({ email: body.email })
+      let users = await User.findOne({ email: body.email })
 
       if (users == null) {
         ws.send(JSON.stringify({ errors: [{ msg: "User was not found" }] }))
