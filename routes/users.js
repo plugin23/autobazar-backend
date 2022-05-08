@@ -1,9 +1,17 @@
 import express from 'express'
+
 import { userModel as User } from '../schemas/user-schema.js'
 import { check, body, validationResult } from 'express-validator'
 
 
-const usersRouter = express.Router()
+const usersRouter = expressWs.Router()
+
+usersRouter.ws('/login', function(ws, req) {
+    ws.on('message', function(msg) {
+        console.log(msg)
+        //ws.send(msg);
+    });
+});
 
 //Informácie o užívateľovi
 usersRouter.get('/:postId', async (req, res) => {
