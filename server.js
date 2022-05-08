@@ -29,11 +29,11 @@ app.use('/api/autobazar/users', usersRouter);
 app.listen(PORT)
 
 usersRouter.ws('/login', (ws, req) => {
-    ws.on('message', (msg) => {
+    ws.on('message', async (msg) => {
       //console.log(req)
       let body = JSON.parse(msg)
       console.log(body)
-      let users = User.findOne({ email: body.email })
+      let users = await User.findOne({ email: body.email })
 
       if (users == null) {
         ws.send(JSON.stringify({ errors: [{ msg: "User was not found" }] }))
