@@ -28,7 +28,7 @@ app.use('/api/autobazar/users', usersRouter);
 
 app.listen(PORT)
 
-usersRouter.ws('/login', (ws, req) => {
+usersRouter.ws('/login', async (ws, req) => {
     ws.on('message', (msg) => {
       console.log(req)
       const body = msg.json()
