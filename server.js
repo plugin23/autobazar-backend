@@ -28,10 +28,34 @@ app.use('/api/autobazar/users', usersRouter);
 
 app.listen(PORT)
 
-usersRouter.ws('/login', function(ws, req) {
-    ws.on('message', function(msg) {
-        console.log(msg)
-        //ws.send(msg);
+usersRouter.ws('/login', (ws, req) => {
+    ws.on('message', (msg) => {
+      console.log(req)
+      const body = msg.json()
+      console.log(body)
+      const users = await User.findOne({ email: body.email })
+
+      if (users == null) {
+        ws.send(JSON.stringify({ errors: [{ msg: "User was not found" }] }))
+        //return res.status(400).json({errors: [{msg: "User was not found"}]})
+      }
+
+      try {
+        validationResult(body).throw();
+
+        if (body.password == users.password) {
+          ws.send(JSON.stringify({ id: users['_id'] }))
+          //res.json({ id: users['_id'] })
+        }
+        else {
+          ws.send(JSON.stringify({ errors: [{ msg: "Unsuccessfully logged in" }] }))
+          //res.status(403).json({ errors: [{ msg: "Unsuccessfully logged in" }] })
+        }
+
+      } catch (err) {
+        ws.send(JSON.stringify({ errors: err.message }))
+        //res.status(400).json({ errors: err.message })
+      }
     });
 });
 
