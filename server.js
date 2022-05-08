@@ -5,7 +5,6 @@ import { createRequire } from "module";
 const require = createRequire(import.meta.url);
 const app = express()
 var expressWs = require('express-ws')(app)
-
 import { router as carsRouter } from './routes/cars.js'
 import usersRouter from './routes/users.js'
 
@@ -22,6 +21,13 @@ mongoose.connect(process.env.MONGODB_URI, () => console.log("connected to db"))
 
 app.use('/api/autobazar/cars', carsRouter);
 app.use('/api/autobazar/users', usersRouter);
+
+app.ws('/api/autobazar/users/login', function(ws, req) {
+  ws.on('message', function(msg) {
+      console.log(msg)
+      //ws.send(msg);
+  });
+});
 
 app.listen(PORT)
 
