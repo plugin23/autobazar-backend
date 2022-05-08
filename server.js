@@ -2,8 +2,8 @@ import cors from 'cors'
 import express from 'express'
 import mongoose from 'mongoose'
 import { createRequire } from "module";
-import { userModel as User } from '../schemas/user-schema.js'
-import { carModel as Car } from '../schemas/car-schema.js'
+import { userModel as User } from './schemas/user-schema.js'
+import { carModel as Car } from './schemas/car-schema.js'
 import { check, body, validationResult } from 'express-validator'
 
 const require = createRequire(import.meta.url);
