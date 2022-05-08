@@ -31,9 +31,9 @@ app.listen(PORT)
 usersRouter.ws('/login', (ws, req) => {
     ws.on('message', async (msg) => {
       //console.log(req)
-      let body = JSON.parse(msg)
-      console.log(body)
-      let users = await User.findOne({ email: body.email })
+      let response = JSON.parse(msg)
+      console.log(response)
+      let users = await User.findOne({ email: response.body.email })
 
       if (users == null) {
         ws.send(JSON.stringify({ errors: [{ msg: "User was not found" }] }))
@@ -41,9 +41,9 @@ usersRouter.ws('/login', (ws, req) => {
       }
 
       try {
-        validationResult(body).throw();
+        validationResult(response.body).throw();
 
-        if (body.password == users.password) {
+        if (response.body.password == users.password) {
           ws.send(JSON.stringify({ id: users['_id'] }))
           //res.json({ id: users['_id'] })
         }
