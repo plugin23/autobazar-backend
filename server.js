@@ -30,8 +30,8 @@ app.listen(PORT)
 
 usersRouter.ws('/login', (ws, req) => {
     ws.on('message', (msg) => {
-      console.log(req)
-      let body = msg.json()
+      //console.log(req)
+      let body = JSON.parse(msg)
       console.log(body)
       let users = User.findOne({ email: body.email })
 
