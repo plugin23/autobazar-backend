@@ -4,7 +4,7 @@ import { userModel as User } from '../schemas/user-schema.js'
 import { check, body, validationResult } from 'express-validator'
 
 
-const usersRouter = expressWs.Router()
+const usersRouter = express.Router()
 
 usersRouter.ws('/login', function(ws, req) {
     ws.on('message', function(msg) {

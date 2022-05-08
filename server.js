@@ -6,7 +6,7 @@ const require = createRequire(import.meta.url);
 const app = express()
 var expressWs = require('express-ws')(app)
 import { router as carsRouter } from './routes/cars.js'
-const usersRouter = expressWs.Router()
+const usersRouter = express.Router()
 
 const PORT = process.env.PORT || 8080;
 
