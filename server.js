@@ -203,7 +203,7 @@ usersWsRouter.ws('/:id/own_advertisement', (ws, req) => {
 })
 
 carWsRouter.ws('/', (ws, req) => {
-    ws.on('message', async (msg) => {
+    ws.on('upgrade', async (msg) => {
         let request = JSON.parse(msg)
         console.log(request)
         if (request.method == 'GET') {
