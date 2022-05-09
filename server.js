@@ -205,7 +205,7 @@ usersWsRouter.ws('/:id/own_advertisement', (ws, req) => {
 carWsRouter.ws('/', (ws, req) => {
     ws.on('message', async (msg) => {
         let request = JSON.parse(msg)
-
+        console.log(request)
         if (request.method == 'GET') {
             const page = req.query.page > 0 ? req.query.page : 1
             const per_page = req.query.per_page > 0 ? req.query.per_page : 10
@@ -214,6 +214,7 @@ carWsRouter.ws('/', (ws, req) => {
             try {
                 const cars = await Car.find().sort({ created_at: order_type }).limit(Number(per_page)).skip((page - 1) * per_page)
                 //res.json(cars)
+                console.log(cars)
                 ws.send(JSON.stringify(cars))
             } catch (err) {
                 ws.send(JSON.stringify({ errors: err.message }))
