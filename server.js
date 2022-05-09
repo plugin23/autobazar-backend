@@ -290,7 +290,7 @@ carWsRouter.ws('/:id', (ws, req) => {
                 }
         }
         
-        /*
+        /*    TODO
         if (request.method == 'DELETE'){
             //TODOOOOOO
             try{
