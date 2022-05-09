@@ -34,10 +34,11 @@ app.use('/api/autobazar/cars', carWsRouter)
 app.listen(PORT)
 
 usersWsRouter.ws('/login', (ws, req) => {
+    console.log(req)
     ws.on('message', async (msg) => {
-      //console.log(req)
+      
       let request = JSON.parse(msg)
-      console.log(request)
+      //console.log(request)
       let users = await User.findOne({ email: request.body.email })
 
       if (users == null) {
@@ -201,7 +202,7 @@ usersWsRouter.ws('/:id/own_advertisement', (ws, req) => {
         }
     })
 })
-/*
+
 carWsRouter.ws('/', (ws, req) => {
     ws.on('message', async (msg) => {
         let request = JSON.parse(msg)
@@ -245,25 +246,6 @@ carWsRouter.ws('/', (ws, req) => {
                 ws.send(JSON.stringify({ errors: err.message }))
             }
         }      
-        
-    })
-})
-*/
-
-carWsRouter.ws('/', (ws, req) => {
-    ws.on('message', async (msg) => {
-        const page = req.query.page > 0 ? req.query.page : 1
-            const per_page = req.query.per_page > 0 ? req.query.per_page : 10
-            const order_type = req.query.order_type == 'asc' ? 1 : -1
-            
-            try {
-                const cars = await Car.find().sort({ created_at: order_type }).limit(Number(per_page)).skip((page - 1) * per_page)
-                //res.json(cars)
-                console.log(cars)
-                ws.send(JSON.stringify(cars))
-            } catch (err) {
-                ws.send(JSON.stringify({ errors: err.message }))
-            }   
         
     })
 })
