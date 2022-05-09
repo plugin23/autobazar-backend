@@ -1,12 +1,10 @@
 import express from 'express'
-
 import { userModel as User } from '../schemas/user-schema.js'
 import { check, body, validationResult } from 'express-validator'
 
+const router = express.Router()
 
-const usersRouter = express.Router()
-
-usersRouter.ws('/login', function(ws, req) {
+router.ws('/login', function(ws, req) {
     ws.on('message', function(msg) {
         console.log(msg)
         //ws.send(msg);
@@ -14,7 +12,7 @@ usersRouter.ws('/login', function(ws, req) {
 });
 
 //Informácie o užívateľovi
-usersRouter.get('/:postId', async (req, res) => {
+router.get('/:postId', async (req, res) => {
     try{
         const users = await User.find({_id: req.params.postId})
         if (!users.length) {
@@ -30,7 +28,7 @@ usersRouter.get('/:postId', async (req, res) => {
 })
 
 //Obľúbené inzeráty
-usersRouter.get('/:postId/favourites', async (req, res) => {
+router.get('/:postId/favourites', async (req, res) => {
     try{
         const users = await User.find({_id: req.params.postId})
         if (!users.length) {
@@ -46,7 +44,7 @@ usersRouter.get('/:postId/favourites', async (req, res) => {
 })
 
 //Registrácia používateľa
-usersRouter.post('/', 
+router.post('/', 
     body('first_name', 'not string').not().isEmpty().isString(),
     body('last_name', 'not string').not().isEmpty().isString(),
     body('email', 'not string').not().isEmpty().isEmail(),
@@ -82,7 +80,7 @@ usersRouter.post('/',
 
 
 //Prihlásenie používateľa
-usersRouter.post('/login',  async (req, res) => {
+router.post('/login',  async (req, res) => {
 
         const users = await User.findOne({email: req.body.email})
 
@@ -107,7 +105,7 @@ usersRouter.post('/login',  async (req, res) => {
 
 //Pridanie do favourites
 //Úprava pouzivatela
-usersRouter.put('/:id', async (req, res) => {
+router.put('/:id', async (req, res) => {
     try {
         const user = await User.findByIdAndUpdate(req.params.id, {
             favourites: req.body.favourites,
@@ -125,7 +123,7 @@ usersRouter.put('/:id', async (req, res) => {
 });
 
 //Pridanie vlastného inzerátu userovi
-usersRouter.put('/:id/own_advertisement', async (req, res) => {
+router.put('/:id/own_advertisement', async (req, res) => {
     try {
       const user = await User.findByIdAndUpdate(req.params.id, {
         own_advertisement: req.body.own_advertisement        
@@ -140,4 +138,4 @@ usersRouter.put('/:id/own_advertisement', async (req, res) => {
 
 });
 
-export default usersRouter
+export default router
