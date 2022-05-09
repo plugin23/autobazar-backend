@@ -34,7 +34,7 @@ app.use('/api/autobazar/cars', carWsRouter)
 app.listen(PORT)
 
 usersWsRouter.ws('/login', (ws, req) => {
-    console.log(req)
+    
     ws.on('message', async (msg) => {
       
       let request = JSON.parse(msg)
@@ -204,6 +204,8 @@ usersWsRouter.ws('/:id/own_advertisement', (ws, req) => {
 })
 
 carWsRouter.ws('/', (ws, req) => {
+    
+    console.log(req)
     ws.on('message', async (msg) => {
         let request = JSON.parse(msg)
         console.log(request)
