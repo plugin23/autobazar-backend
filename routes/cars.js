@@ -3,10 +3,10 @@ import {carModel as Car} from '../schemas/car-schema.js'
 import {userModel as User} from '../schemas/user-schema.js'
 import { check, body, validationResult } from 'express-validator'
 
-export const carWsRouter = express.Router()
+export const router = express.Router()
 
 //Najnovšie/najstaršie inzeráty
-carWsRouter.get('/', async (req, res) => {
+router.get('/', async (req, res) => {
     const page = req.query.page > 0 ? req.query.page : 1
     const per_page = req.query.per_page > 0 ? req.query.per_page : 10
     const order_type = req.query.order_type == 'asc' ? 1 : -1
@@ -19,7 +19,7 @@ carWsRouter.get('/', async (req, res) => {
     }
 })
 
-carWsRouter.get('/search/:searchQuery', async (req, res) => {
+router.get('/search/:searchQuery', async (req, res) => {
     const escapeRegExp = (string) => {
         return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     }
@@ -38,7 +38,7 @@ carWsRouter.get('/search/:searchQuery', async (req, res) => {
 })
 
 //Odstránenie inzerátu
-carWsRouter.delete('/:postId', async (req, res) => {
+router.delete('/:postId', async (req, res) => {
     try{
         var removeCar = await Car.deleteOne({_id: req.params.postId})
         var removedCarFavourites = await User.find({favourites: req.params.postId})
@@ -64,7 +64,7 @@ carWsRouter.delete('/:postId', async (req, res) => {
 })
 
 //Ukladanie inzerátu do DB
-carWsRouter.post('/', 
+router.post('/', 
     body('author', 'not valid MongoID').not().isEmpty(),
     body('year', 'not number').not().isEmpty().isInt(),
     body('mileage', 'not number').not().isEmpty().isInt(),
@@ -100,7 +100,7 @@ carWsRouter.post('/',
 })
 
 //Úprava inzerátu
-carWsRouter.put('/:id', async (req, res) => {
+router.put('/:id', async (req, res) => {
     try {
       const car = await Car.findByIdAndUpdate(req.params.id, {
         author: req.body.author,
@@ -124,7 +124,7 @@ carWsRouter.put('/:id', async (req, res) => {
 });
 
 //Obsah inzerátu
-carWsRouter.get('/:id', 
+router.get('/:id', 
     check('id').isMongoId().withMessage('not valid MongoID'),
     async (req, res) => {
         try{
