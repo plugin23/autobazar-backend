@@ -206,7 +206,7 @@ carWsRouter.ws('/', (ws, req) => {
     ws.on('message', async (msg) => {
         let request = JSON.parse(msg)
 
-        if (request.method == 'POST') {
+        if (request.method == 'GET') {
             const page = req.query.page > 0 ? req.query.page : 1
             const per_page = req.query.per_page > 0 ? req.query.per_page : 10
             const order_type = req.query.order_type == 'asc' ? 1 : -1
