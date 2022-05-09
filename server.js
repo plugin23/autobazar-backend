@@ -289,6 +289,7 @@ carWsRouter.ws('/:id', (ws, req) => {
                   ws.send(JSON.stringify({ errors: err.message }))
                 }
         }
+        
         /*
         if (request.method == 'DELETE'){
             //TODOOOOOO
