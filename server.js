@@ -34,7 +34,7 @@ app.use('/api/autobazar/cars', carWsRouter)
 app.listen(PORT)
 
 usersWsRouter.ws('/login', (ws, req) => {
-    
+    console.log(req)
     ws.on('message', async (msg) => {
       
       let request = JSON.parse(msg)
@@ -254,6 +254,7 @@ carWsRouter.ws('/', (ws, req) => {
 
 
 carWsRouter.ws('/search/:searchQuery', (ws, req) => {
+    console.log(req)
     ws.on('message', async (msg) => {
         const page = req.query.page > 0 ? req.query.page : 1
         const per_page = req.query.per_page > 0 ? req.query.per_page : 10
@@ -270,6 +271,7 @@ carWsRouter.ws('/search/:searchQuery', (ws, req) => {
 })
 
 carWsRouter.ws('/:id', (ws, req) => {
+    console.log(req)
     ws.on('message', async (msg) => {
         let request = JSON.parse(msg)
         if (request.method == 'PUT'){
@@ -327,6 +329,7 @@ carWsRouter.ws('/:id', (ws, req) => {
 })
 
 carWsRouter.ws('/:postId/favourites', (ws, req) => {
+    console.log(req)
     ws.on('message', async (msg) => {
         let request = JSON.parse(msg)
         try{
