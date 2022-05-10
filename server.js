@@ -35,7 +35,6 @@ app.use('/api/autobazar/users', usersRouter);
 app.listen(PORT)
 
 usersWsRouter.ws('/login', (ws, req) => {
-    console.log(req)
     ws.on('message', async (msg) => {
       
       let request = JSON.parse(msg)
@@ -69,6 +68,7 @@ usersWsRouter.ws('/login', (ws, req) => {
 usersWsRouter.ws('/:postId', (ws, req) => {
     ws.on('message', async (msg) => {
         let request = JSON.parse(msg)
+        console.log(request)
         if (request.method == 'GET') {
             try {
                 const users = await User.find({_id: req.params.postId})
@@ -206,7 +206,6 @@ usersWsRouter.ws('/:id/own_advertisement', (ws, req) => {
 
 carWsRouter.ws('/', (ws, req) => {
     
-    console.log(req)
     ws.on('message', async (msg) => {
         let request = JSON.parse(msg)
         console.log(request)
@@ -255,7 +254,6 @@ carWsRouter.ws('/', (ws, req) => {
 
 
 carWsRouter.ws('/search/:searchQuery', (ws, req) => {
-    console.log(req)
     ws.on('message', async (msg) => {
         const page = req.query.page > 0 ? req.query.page : 1
         const per_page = req.query.per_page > 0 ? req.query.per_page : 10
@@ -272,7 +270,6 @@ carWsRouter.ws('/search/:searchQuery', (ws, req) => {
 })
 
 carWsRouter.ws('/:id', (ws, req) => {
-    console.log(req)
     ws.on('message', async (msg) => {
         let request = JSON.parse(msg)
         if (request.method == 'PUT'){
@@ -330,7 +327,6 @@ carWsRouter.ws('/:id', (ws, req) => {
 })
 
 carWsRouter.ws('/:postId/favourites', (ws, req) => {
-    console.log(req)
     ws.on('message', async (msg) => {
         let request = JSON.parse(msg)
         try{
