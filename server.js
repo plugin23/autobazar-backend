@@ -77,6 +77,7 @@ usersWsRouter.ws('/:postId', (ws, req) => {
                     //return res.status(404).json({errors: [{msg: `User ${req.params.postId} not found`}]})
                 }
                 else {
+                    console.log(users)
                     ws.send(JSON.stringify(users))
                     //res.json(users)
                 }
