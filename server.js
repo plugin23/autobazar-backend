@@ -270,62 +270,80 @@ carWsRouter.ws('/search/:searchQuery', (ws, req) => {
     })
 })
 
-carWsRouter.ws('/:id', (ws, req) => {
-    ws.on('message', async (msg) => {
-        let request = JSON.parse(msg)
-        console.log(request)
-        if (request.method == 'PUT'){
-            try {
-                const car = await Car.findByIdAndUpdate(req.params.id, {
-                  author: request.body.author,
-                  year: request.body.year,
-                  mileage: request.body.mileage,
-                  price: request.body.price,
-                  doors: request.body.doors,
-                  description: request.body.description,
-                  engine_cap: request.body.engine_cap,
-                  car_name: request.body.car_name,
-                  body: request.body.body,
-                  image_photos: request.body.image_photos
-                });
-          
-                ws.send(JSON.stringify(car))
-          
-              } catch(err) {
-                  console.error(err.message);
-                  ws.send(JSON.stringify({ errors: err.message }))
+carWsRouter.ws('/:id', 
+    check('id').isMongoId().withMessage('not valid MongoID'),
+    (ws, req) => {
+        ws.on('message', async (msg) => {
+            let request = JSON.parse(msg)
+            if (request.method == 'GET') {
+                try {
+                    validationResult(req).throw();
+                    const car = await Car.findById(req.params.id)
+
+                    if (car === null) {
+                        ws.send(JSON.stringify({ errors: [{ msg: `car ${req.params.id} not found` }] }))
+                        //return res.status(404).json({ errors: [{ msg: `car ${req.params.id} not found` }] })
+                    }
+                    ws.send(JSON.stringify(car))
+                    //res.status(200).json(car)
+                } catch (err) {
+                    ws.send(JSON.stringify({ errors: err.array() }))
+                    //res.status(500).json({ errors: err.array() });
                 }
-        }
-        
-        /*    TODO
-        if (request.method == 'DELETE'){
-            //TODOOOOOO
-            try{
-                var removeCar = await Car.deleteOne({_id: req.params.postId})
-                var removedCarFavourites = await User.find({favourites: req.params.postId})
-        
-                removedCarFavourites.forEach(item => {
-                    var index = item.favourites.indexOf(req.params.postId)
-                    item.favourites.splice(index, 1)
-                    User.findByIdAndUpdate(item._id, {favourites: item.favourites}, {upsert:true}, function(err, doc) {
-                        if (err) return res.status(500).json({error: err})
-                    })
-                })
-                
-                if (removeCar.deletedCount) {
-                    removeCar = []
-                    return res.status(200).json(removeCar)
-                }
-                else {
-                    return res.status(404).json({errors: [{msg: `Car ${req.params.postId} not found`}]})
-                }
-            } catch(err) {
-                res.status(500).json({errors: err.message})
             }
-        }
-        */
-        
-    })
+            if (request.method == 'PUT'){
+                try {
+                    //validationResult(req).throw();
+                    const car = await Car.findByIdAndUpdate(req.params.id, {
+                    author: request.body.author,
+                    year: request.body.year,
+                    mileage: request.body.mileage,
+                    price: request.body.price,
+                    doors: request.body.doors,
+                    description: request.body.description,
+                    engine_cap: request.body.engine_cap,
+                    car_name: request.body.car_name,
+                    body: request.body.body,
+                    image_photos: request.body.image_photos
+                    });
+            
+                    ws.send(JSON.stringify(car))
+            
+                } catch(err) {
+                    console.error(err.message);
+                    ws.send(JSON.stringify({ errors: err.message }))
+                }
+            }
+            
+            /*    TODO
+            if (request.method == 'DELETE'){
+                //TODOOOOOO
+                try{
+                    var removeCar = await Car.deleteOne({_id: req.params.postId})
+                    var removedCarFavourites = await User.find({favourites: req.params.postId})
+            
+                    removedCarFavourites.forEach(item => {
+                        var index = item.favourites.indexOf(req.params.postId)
+                        item.favourites.splice(index, 1)
+                        User.findByIdAndUpdate(item._id, {favourites: item.favourites}, {upsert:true}, function(err, doc) {
+                            if (err) return res.status(500).json({error: err})
+                        })
+                    })
+                    
+                    if (removeCar.deletedCount) {
+                        removeCar = []
+                        return res.status(200).json(removeCar)
+                    }
+                    else {
+                        return res.status(404).json({errors: [{msg: `Car ${req.params.postId} not found`}]})
+                    }
+                } catch(err) {
+                    res.status(500).json({errors: err.message})
+                }
+            }
+            */
+            
+        })
 })
 
 carWsRouter.ws('/:postId/favourites', (ws, req) => {
