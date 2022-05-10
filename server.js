@@ -26,10 +26,11 @@ if (process.env.NODE_ENV !== 'production') {
 
 mongoose.connect(process.env.MONGODB_URI, () => console.log("connected to db"))
 
-app.use('/api/autobazar/cars', carsRouter);
-app.use('/api/autobazar/users', usersRouter);
 app.use('/api/autobazar/users', usersWsRouter)
 app.use('/api/autobazar/cars', carWsRouter)
+app.use('/api/autobazar/cars', carsRouter);
+app.use('/api/autobazar/users', usersRouter);
+
 
 app.listen(PORT)
 
