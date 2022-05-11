@@ -68,7 +68,7 @@ usersWsRouter.ws('/login', (ws, req) => {
 usersWsRouter.ws('/:postId', (ws, req) => {
     ws.on('message', async (msg) => {
         let request = JSON.parse(msg)
-        console.log(request)
+        //console.log(request)
         if (request.method == 'GET') {
             try {
                 const users = await User.find({_id: req.params.postId})
@@ -307,41 +307,44 @@ carWsRouter.ws('/:id',
                     image_photos: request.body.image_photos
                     });
             
+                    console.log(car)
                     ws.send(JSON.stringify(car))
             
                 } catch(err) {
-                    console.error(err.message);
                     ws.send(JSON.stringify({ errors: err.message }))
                 }
             }
             
-            /*    TODO
+            
             if (request.method == 'DELETE'){
-                //TODOOOOOO
+                
                 try{
-                    var removeCar = await Car.deleteOne({_id: req.params.postId})
-                    var removedCarFavourites = await User.find({favourites: req.params.postId})
+                    var removeCar = await Car.deleteOne({_id: req.params.id})
+                    var removedCarFavourites = await User.find({favourites: req.params.id})
             
                     removedCarFavourites.forEach(item => {
-                        var index = item.favourites.indexOf(req.params.postId)
+                        var index = item.favourites.indexOf(req.params.id)
                         item.favourites.splice(index, 1)
                         User.findByIdAndUpdate(item._id, {favourites: item.favourites}, {upsert:true}, function(err, doc) {
-                            if (err) return res.status(500).json({error: err})
+                            if (err) return ws.send(JSON.stringify({ error: err }))
                         })
                     })
                     
                     if (removeCar.deletedCount) {
                         removeCar = []
-                        return res.status(200).json(removeCar)
+                        return ws.send(JSON.stringify(removeCar))
+                        //return res.status(200).json(removeCar)
                     }
                     else {
-                        return res.status(404).json({errors: [{msg: `Car ${req.params.postId} not found`}]})
+                        return ws.send(JSON.stringify({ errors: [{msg: `Car ${req.params.id} not found`} ]}))
+                        //return res.status(404).json({errors: [{msg: `Car ${req.params.id} not found`}]})
                     }
                 } catch(err) {
-                    res.status(500).json({errors: err.message})
+                    ws.send(JSON.stringify({ errors: err.message }))
+                    //res.status(500).json({errors: err.message})
                 }
             }
-            */
+            
             
         })
 })
