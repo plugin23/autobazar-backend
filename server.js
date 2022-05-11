@@ -323,7 +323,7 @@ carWsRouter.ws('/:id',
                     var removedCarFavourites = await User.find({favourites: req.params.id})
                     var removedCarAdvertisements = await User.find({own_advertisement: req.params.id})
 
-            
+                    
                     removedCarFavourites.forEach(item => {
                         var index = item.favourites.indexOf(req.params.id)
                         item.favourites.splice(index, 1)
@@ -331,7 +331,7 @@ carWsRouter.ws('/:id',
                             if (err) return ws.send(JSON.stringify({ error: err }))
                         })
                     })
-
+                    console.log(removedCarAdvertisements, removeCar)
                     removedCarAdvertisements.forEach(item => {
                         var index = item.own_advertisement.indexOf(req.params.id)
                         item.own_advertisement.splice(index, 1)
