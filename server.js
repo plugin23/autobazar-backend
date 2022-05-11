@@ -321,11 +321,21 @@ carWsRouter.ws('/:id',
                 try{
                     var removeCar = await Car.deleteOne({_id: req.params.id})
                     var removedCarFavourites = await User.find({favourites: req.params.id})
+                    var removedCarAdvertisements = await User.find({own_advertisement: req.params.id})
+
             
                     removedCarFavourites.forEach(item => {
                         var index = item.favourites.indexOf(req.params.id)
                         item.favourites.splice(index, 1)
                         User.findByIdAndUpdate(item._id, {favourites: item.favourites}, {upsert:true}, function(err, doc) {
+                            if (err) return ws.send(JSON.stringify({ error: err }))
+                        })
+                    })
+
+                    removedCarAdvertisements.forEach(item => {
+                        var index = item.own_advertisement.indexOf(req.params.id)
+                        item.own_advertisement.splice(index, 1)
+                        User.findByIdAndUpdate(item._id, {own_advertisement: item.own_advertisement}, {upsert:true}, function(err, doc) {
                             if (err) return ws.send(JSON.stringify({ error: err }))
                         })
                     })
